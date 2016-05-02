@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 
 void asservire()
 {
@@ -64,25 +66,7 @@ void calcul_erreur()
 {
   //voir http://www.dca.ufrn.br/~adelardo/artigos/ICINCO04a.pdf
   float erreur_angle_radian=0;
-  erreur_angle_radian=atan2(Y_COMMANDE-Y,X_COMMANDE-X)-angle_radian-PI*MARCHE_ARRIERE;//angle entre le vecteur perpendiculaire à l'axe des roues et le vecteur pointant sur la destination
-  erreur_angle_radian = fmod(erreur_angle_radian,PI+0.01);// compris entre -PI et PI, on rajoute 0.01 pour les 180° et pour que la marche arriere soit prise en compte
-  
-  if(is_close_to_goal)//si on est proche du but on cherche à se mettre dans l'angle final commandé
-  {  
-    erreur_angle=ANGLE_COMMANDE-angle_degre;//erreur entre l'angle actuel et l'angle commandé
-    erreur_angle=fmod(erreur_angle,180);
-    if(abs(erreur_angle)<5)
-      Serial.println("K");
-  }
-  else 
-  {
-    erreur_angle=erreur_angle_radian*360/(float)(2*PI);
-  }
   int32_t dx = X_COMMANDE-X, dy = Y_COMMANDE-Y;
-  erreur_moyenne=(float)sqrt(dx*dx+dy*dy)*(float)cos(erreur_angle_radian-PI*MARCHE_ARRIERE); // projection de la distance séparant de la cible sur le vecteur perpendicualire à l'axe des roues 
-  float k_erreur_moyenne = 10000/ERREUR_MAX;
-  float k_erreur_angle = 10000/ERREUR_MAX_ANGLE;
-  
   if(sqrt(dx*dx+dy*dy)<50)//cerle proche du but dans lequel on se met à l'angle final 
   {
     if(sqrt(dx*dx+dy*dy)<30)//cerle proche du but dans lequel on se met à l'angle final 
@@ -95,6 +79,31 @@ void calcul_erreur()
     }
   }
   else is_close_to_goal = false; 
+  
+  erreur_angle_radian=atan2(Y_COMMANDE-Y,X_COMMANDE-X)-angle_radian-PI*MARCHE_ARRIERE;//angle entre le vecteur perpendiculaire à l'axe des roues et le vecteur pointant sur la destination
+  erreur_angle_radian = fmod(erreur_angle_radian,PI+0.01);// compris entre -PI et PI, on rajoute 0.01 pour les 180° et pour que la marche arriere soit prise en compte
+  
+  if(is_close_to_goal==true)//si on est proche du but on cherche à se mettre dans l'angle final commandé
+  {  
+    erreur_angle=ANGLE_COMMANDE-angle_degre;//erreur entre l'angle actuel et l'angle commandé
+    erreur_angle=fmod(erreur_angle,180);
+    if((abs(erreur_angle)<5) && Notif_arrive==true)
+      {
+       Notif_arrive=false;//La notification est envoyé, on ne doit plus notifier
+       Serial2.println("K;");
+      }
+      
+  }
+  else 
+  {
+    erreur_angle=erreur_angle_radian*360/(float)(2*PI);
+  }
+  
+  erreur_moyenne=(float)sqrt(dx*dx+dy*dy)*(float)cos(erreur_angle_radian-PI*MARCHE_ARRIERE); // projection de la distance séparant de la cible sur le vecteur perpendicualire à l'axe des roues 
+  float k_erreur_moyenne = 10000/ERREUR_MAX;
+  float k_erreur_angle = 10000/ERREUR_MAX_ANGLE;
+  
+  
   
   erreur_moyenne_fuzzy=erreur_moyenne * k_erreur_moyenne;
   erreur_angle_fuzzy=erreur_angle * k_erreur_angle;

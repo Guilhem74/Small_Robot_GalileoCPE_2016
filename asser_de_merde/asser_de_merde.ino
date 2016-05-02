@@ -1,3 +1,5 @@
+#include <Arduino.h>
+
 #include "define.h"
 #include "global.h"
 #include "pin.h"
@@ -6,8 +8,9 @@ void setup()
 {
   config_fuzzy();
     
-  Serial.begin(BAUDRATE_MASTER);
+  Serial2.begin(BAUDRATE_MASTER);
   Serial1.begin(BAUDRATE_COMPTEUR);
+  Serial.begin(BAUDRATE_MASTER);
   
   pinMode(PIN_MOTEUR_DROITE_VITESSE, OUTPUT);
   pinMode(PIN_MOTEUR_DROITE_SENS, OUTPUT);
@@ -15,7 +18,6 @@ void setup()
   pinMode(PIN_MOTEUR_GAUCHE_SENS, OUTPUT);
   if(DEBUG)
     Serial.println("Démarrage en mode DEBUG");
-    
   delay(100);
   Serial1.write('r');
   delay(1000);
@@ -31,4 +33,37 @@ void loop() {
 
   asservire();
   print_debug();
+  Reception_ordre();
+  
 }
+
+
+void serialEvent2() {
+  while (Serial2.available()) {
+    // récupérer le prochain octet (byte ou char) et l'enlever
+    char inChar = (char)Serial2.read(); 
+    // concaténation des octets reçus
+    inputString += inChar;
+    // caractère de fin pour notre chaine
+    if (inChar == '\n') {  
+      stringComplete = true;
+    }
+  }
+}
+#if DEBUG_SERIAL
+
+void serialEvent() {
+  while (Serial.available()) {
+    // récupérer le prochain octet (byte ou char) et l'enlever
+    char inChar = (char)Serial.read(); 
+    // concaténation des octets reçus
+    inputString += inChar;
+    // caractère de fin pour notre chaine
+    if (inChar == '\n') {  
+      stringComplete = true;
+    }
+  }
+ }
+#endif
+
+

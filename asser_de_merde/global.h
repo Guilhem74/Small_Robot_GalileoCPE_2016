@@ -7,8 +7,13 @@
 #include <FuzzyIO.h>
 #include <FuzzySet.h>
 #include <FuzzyRuleAntecedent.h>
-
-
+//Communication, ASSERG
+int cnt = 0; // nombre de données découpées
+String data[10]; // stockage des données découpées
+String inputString = "";   // chaine de caractères pour contenir les données
+boolean stringComplete = false;  // pour savoir si la chaine est complète
+boolean Notif_arrive=false;
+//
 
 int32_t D = 0;//compteur canal 1
 int32_t G = 0;//compteur canal 2
