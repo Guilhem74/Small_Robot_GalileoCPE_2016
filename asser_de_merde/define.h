@@ -10,7 +10,8 @@
   #define DEBUG_ANGLE false
   #define DEBUG_ENCODEUR false
   #define DEBUG_SERIAL false
-
+#define HYST_IN 30
+#define HYST_OUT 70
 #define BAUDRATE_COMPTEUR 115200
 #define BAUDRATE_MASTER 38400
 

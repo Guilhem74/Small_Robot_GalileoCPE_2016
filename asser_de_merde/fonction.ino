@@ -4,9 +4,9 @@
 void asservire()
 {
   mise_a_jour_POS();
-  
+
   calcul_erreur();
-  
+
   vitesse_D=1000*((Dmm-temp_D)/(float)(top_millis-temp_millis));  //10 = 10000/1000 normalisation de la vitesse pour fuzzification //800 car vitesse max =80cm sec
   vitesse_G=1000*((Gmm-temp_G)/(float)(top_millis-temp_millis));  //10 = 10000/1000 normalisation de la vitesse pour fuzzification
   vitesse_moyenne=(vitesse_D + vitesse_G)/2.0f;
@@ -16,13 +16,13 @@ void asservire()
   vitesse_angle=1000*(float)((angle_degre-temp_angle)/(float)(top_millis-temp_millis));
   float k_fuzzy_vitesse_angle=(float)10000/(float)VITESSE_ANGLE_MAX;
   vitesse_angle_fuzzy = vitesse_angle*k_fuzzy_vitesse_angle;
-  
+
   //fuzzification des paramètres d'entrée de l'asservissement (erreur, vitesse)
-  fuzzy->setInput(1, erreur_moyenne_fuzzy); 
+  fuzzy->setInput(1, erreur_moyenne_fuzzy);
   fuzzy->setInput(2, vitesse_moyenne_fuzzy);
-  fuzzy->setInput(3, erreur_angle_fuzzy); 
+  fuzzy->setInput(3, erreur_angle_fuzzy);
   fuzzy->setInput(4, vitesse_angle_fuzzy);
-  fuzzy->fuzzify(); 
+  fuzzy->fuzzify();
 
   //defuzzification du bordel
   float direct_speed = fuzzy->defuzzify(1);
@@ -32,16 +32,16 @@ void asservire()
   //Serial.print(direct_speed);
   //Serial.print("\tangle_speed\t");
   //Serial.println(angle_speed);
-  
+
   setRobotSpeed(direct_speed,angle_speed);
 }
 
 void mise_a_jour_POS()
 {
-  //voir https://www.cs.princeton.edu/courses/archive/fall11/cos495/COS495-Lecture5-Odometry.pdf  
+  //voir https://www.cs.princeton.edu/courses/archive/fall11/cos495/COS495-Lecture5-Odometry.pdf
   temp_D=Dmm;
   temp_G=Gmm;
-  Dmm=D*PI*DIAMETRE_ROUE*COEFF_MAGIQUE_ROUE_DROITE/TICCODEUSE;//conversion tic2mm  
+  Dmm=D*PI*DIAMETRE_ROUE*COEFF_MAGIQUE_ROUE_DROITE/TICCODEUSE;//conversion tic2mm
   Gmm=G*PI*DIAMETRE_ROUE*COEFF_MAGIQUE_ROUE_GAUCHE/TICCODEUSE;//conversion tic2mm
   int delta_Dmm = Dmm-temp_D;//TODO passer en int?
   int delta_Gmm = Gmm-temp_G;
@@ -53,9 +53,9 @@ void mise_a_jour_POS()
   last_Y = Y;
   X = X + int(localX);
   Y = Y + int(localY);
- 
+
   localX -= (int)(localX);
-  localY -= (int)(localY);  
+  localY -= (int)(localY);
 
   temp_angle=angle_degre;
   angle_radian += ((float)(delta_Dmm-delta_Gmm)/ECARTEMENT_ROUES);//toutes les distances doivent avoir les mêmes unités!
@@ -67,9 +67,9 @@ void calcul_erreur()
   //voir http://www.dca.ufrn.br/~adelardo/artigos/ICINCO04a.pdf
   float erreur_angle_radian=0;
   int32_t dx = X_COMMANDE-X, dy = Y_COMMANDE-Y;
-  if(sqrt(dx*dx+dy*dy)<50)//cerle proche du but dans lequel on se met à l'angle final 
+  if(sqrt(dx*dx+dy*dy)<50)//cerle proche du but dans lequel on se met à l'angle final
   {
-    if(sqrt(dx*dx+dy*dy)<30)//cerle proche du but dans lequel on se met à l'angle final 
+    if(sqrt(dx*dx+dy*dy)<30)//cerle proche du but dans lequel on se met à l'angle final
     {
       is_close_to_goal = true;
     }
@@ -78,13 +78,13 @@ void calcul_erreur()
        erreur_angle_fuzzy = 0;
     }
   }
-  else is_close_to_goal = false; 
-  
+  else is_close_to_goal = false;
+
   erreur_angle_radian=atan2(Y_COMMANDE-Y,X_COMMANDE-X)-angle_radian-PI*MARCHE_ARRIERE;//angle entre le vecteur perpendiculaire à l'axe des roues et le vecteur pointant sur la destination
   erreur_angle_radian = fmod(erreur_angle_radian,PI+0.01);// compris entre -PI et PI, on rajoute 0.01 pour les 180° et pour que la marche arriere soit prise en compte
-  
+
   if(is_close_to_goal==true)//si on est proche du but on cherche à se mettre dans l'angle final commandé
-  {  
+  {
     erreur_angle=ANGLE_COMMANDE-angle_degre;//erreur entre l'angle actuel et l'angle commandé
     erreur_angle=fmod(erreur_angle,180);
     if((abs(erreur_angle)<5) && Notif_arrive==true)
@@ -92,19 +92,34 @@ void calcul_erreur()
        Notif_arrive=false;//La notification est envoyé, on ne doit plus notifier
        Serial2.println("K;");
       }
-      
+
   }
-  else 
+  else
   {
     erreur_angle=erreur_angle_radian*360/(float)(2*PI);
   }
-  
-  erreur_moyenne=(float)sqrt(dx*dx+dy*dy)*(float)cos(erreur_angle_radian-PI*MARCHE_ARRIERE); // projection de la distance séparant de la cible sur le vecteur perpendicualire à l'axe des roues 
+
+  erreur_moyenne=(float)sqrt(dx*dx+dy*dy)*(float)cos(erreur_angle_radian-PI*MARCHE_ARRIERE); // projection de la distance séparant de la cible sur le vecteur perpendicualire à l'axe des roues
   float k_erreur_moyenne = 10000/ERREUR_MAX;
   float k_erreur_angle = 10000/ERREUR_MAX_ANGLE;
-  
-  
-  
+
+
+  static boolean in_hysteresis = false;
+  if(abs(sqrt(dx*dx+dy*dy))<HYST_IN)//cerle proche du but dans lequel on se met à l'angle final
+  {
+    in_hysteresis = true;
+    is_close_to_goal = true;
+  }
+  else if (abs(sqrt(dx*dx+dy*dy))<HYST_OUT && in_hysteresis)
+  {
+    //on ne change rien
+  }
+  else
+  {
+    is_close_to_goal = false;
+    in_hysteresis = false;
+  }
+
   erreur_moyenne_fuzzy=erreur_moyenne * k_erreur_moyenne;
   erreur_angle_fuzzy=erreur_angle * k_erreur_angle;
 }
@@ -116,13 +131,13 @@ void setRobotSpeed(float output,float angle_speed)
 
   int speed_out_D =0;
   int speed_out_G =0;
-  
+
   float k_vitesse=SPEED_OUT_MAX/(float)10000;// inverser /
   float k_vitesse_angulaire=ANGLE_OUT_MAX/(float)10000;
   speed_out_D=output*k_vitesse+angle_speed*k_vitesse_angulaire;
   speed_out_G=output*k_vitesse-angle_speed*k_vitesse_angulaire;
 
-  
+
 //  Serial.print(output,10);
 //  Serial.print('\t');
 //  Serial.println(angle_speed,10);
@@ -137,12 +152,12 @@ void setRobotSpeed(float output,float angle_speed)
     sens_G=!(sens_G);
     speed_out_G=-speed_out_G;
   }
-  
+
   if (speed_out_D>255)speed_out_D=255;
   if (speed_out_G>255)speed_out_G=255;
   if (speed_out_D<0)speed_out_D=0;//on sait jamais
   if (speed_out_G<0)speed_out_G=0;
-  
+
   digitalWrite(PIN_MOTEUR_DROITE_SENS, sens_D);
   digitalWrite(PIN_MOTEUR_GAUCHE_SENS, sens_G);
   delay(1);
@@ -151,9 +166,9 @@ void setRobotSpeed(float output,float angle_speed)
 
   static int compt=0;
   compt=(compt+1)%100;
-  
+
   if(compt)
-    return;    
+    return;
   if(DEBUG_VITESSE&&DEBUG)
   {
   Serial.print("output: ");
@@ -161,28 +176,28 @@ void setRobotSpeed(float output,float angle_speed)
   Serial.print("\t");
   Serial.println(speed_out_G);
   }
-  
- 
+
+
 }
 
 void recuperer(byte A)
 {
-  
-  String inputString = ""; 
+
+  String inputString = "";
   bool fini=true;
   if(A==0)//Droite
       Serial1.write("x");
-   
+
   if(A==1)//Gauche
       Serial1.write("y");
-  
-  while (Serial1.available()&& fini) 
+
+  while (Serial1.available()&& fini)
   {
     char inChar = (char)Serial1.read();
-    
+
     inputString += inChar;
-    
-    if (inChar == '\n') 
+
+    if (inChar == '\n')
     { inputString += inChar;
       if(A==0)
         {
@@ -193,8 +208,8 @@ void recuperer(byte A)
           }
           if(DEBUG&&DEBUG_ENCODEUR)
           {
-          Serial.println("D"); 
-          Serial.println(D); 
+          Serial.println("D");
+          Serial.println(D);
           }
         }
       if(A==1)
@@ -202,8 +217,8 @@ void recuperer(byte A)
           G=inputString.toInt();
           if(DEBUG&&DEBUG_ENCODEUR)
           {
-          Serial.println("G"); 
-          Serial.println(G); 
+          Serial.println("G");
+          Serial.println(G);
           }
         }
          if(DEBUG&&DEBUG_ENCODEUR)
@@ -211,18 +226,18 @@ void recuperer(byte A)
             Serial.println("Fin");
           }
       fini=false;
-    }   
+    }
   }
- 
+
 }
 void print_debug()
 {
   if(!DEBUG)
     return;
-  //affichage une fois sur 500 sinon utiliser un if(val) pour l'afficher uniquement quand !=0 
+  //affichage une fois sur 500 sinon utiliser un if(val) pour l'afficher uniquement quand !=0
   static int compt=0;
   compt=(compt+1)%20;
-  
+
   if(compt)
     return;
 
@@ -234,7 +249,7 @@ void print_debug()
 //  Serial.print(erreur_angle);
 //  Serial.print("\tV_angle ");
 //  Serial.println(vitesse_angle);
-//    
+//
 //  Serial.print("E_moy_F ");
 //  Serial.print(erreur_moyenne_fuzzy);
 //  Serial.print("\tV_moy_F ");
@@ -243,14 +258,14 @@ void print_debug()
 //  Serial.print(erreur_angle_fuzzy);
 //  Serial.print("\tV_angle_F ");
 //  Serial.println(vitesse_angle_fuzzy);
-    
+
 //  Serial.print("angle\t");
 //  Serial.print(angle_degre);
 //  Serial.print("\tX\t");
 //  Serial.print(X);
 //  Serial.print("\tY\t");
 //  Serial.println(Y);
-  
+
 //  if(DEBUG_VITESSE)
 //  {
 //  Serial.print("vitesse_D: ");
@@ -267,7 +282,7 @@ void print_debug()
   Serial.print(" erreur_G: ");
   Serial.print(erreur_G);
   Serial.print(" erreur_moyenne: ");
-  Serial.print(erreur_moyenne);  
+  Serial.print(erreur_moyenne);
   Serial.print(" angle: ");
   Serial.print(angle);
   Serial.print(" erreur_angle: ");
@@ -293,7 +308,7 @@ void config_fuzzy()
   inputSpeed->addFuzzySet(NB_speed_IN);
   inputSpeed->addFuzzySet(NS_speed_IN);
   inputSpeed->addFuzzySet(Z_speed_IN);
-  inputSpeed->addFuzzySet(PS_speed_IN); 
+  inputSpeed->addFuzzySet(PS_speed_IN);
   inputSpeed->addFuzzySet(PB_speed_IN);
   fuzzy->addFuzzyInput(inputSpeed);
 
@@ -311,7 +326,7 @@ void config_fuzzy()
   inputSpeed_angle->addFuzzySet(NB_speed_angle_IN);
   inputSpeed_angle->addFuzzySet(NS_speed_angle_IN);
   inputSpeed_angle->addFuzzySet(Z_speed_angle_IN);
-  inputSpeed_angle->addFuzzySet(PS_speed_angle_IN); 
+  inputSpeed_angle->addFuzzySet(PS_speed_angle_IN);
   inputSpeed_angle->addFuzzySet(PB_speed_angle_IN);
   fuzzy->addFuzzyInput(inputSpeed_angle);
 
@@ -321,7 +336,7 @@ void config_fuzzy()
   outputSpeed->addFuzzySet(NB_speed_OUT);
   outputSpeed->addFuzzySet(NS_speed_OUT);
   outputSpeed->addFuzzySet(Z_speed_OUT);
-  outputSpeed->addFuzzySet(PS_speed_OUT); 
+  outputSpeed->addFuzzySet(PS_speed_OUT);
   outputSpeed->addFuzzySet(PB_speed_OUT);
   fuzzy->addFuzzyOutput(outputSpeed);
 
@@ -329,7 +344,7 @@ void config_fuzzy()
   outputSpeed_angle->addFuzzySet(NB_speed_angle_OUT);
   outputSpeed_angle->addFuzzySet(NS_speed_angle_OUT);
   outputSpeed_angle->addFuzzySet(Z_speed_angle_OUT);
-  outputSpeed_angle->addFuzzySet(PS_speed_angle_OUT); 
+  outputSpeed_angle->addFuzzySet(PS_speed_angle_OUT);
   outputSpeed_angle->addFuzzySet(PB_speed_angle_OUT);
   fuzzy->addFuzzyOutput(outputSpeed_angle);
 
@@ -474,7 +489,7 @@ void config_fuzzy()
   FuzzyRule* fuzzyRule03 = new FuzzyRule(3, ifZ_erreurAndNB_speed_IN, thenNS_speed_OUT);
   FuzzyRule* fuzzyRule04 = new FuzzyRule(4, ifPS_erreurAndNB_speed_IN, thenNS_speed_OUT);
   FuzzyRule* fuzzyRule05 = new FuzzyRule(5, ifPB_erreurAndNB_speed_IN, thenZ_speed_OUT);
-  
+
   FuzzyRule* fuzzyRule06 = new FuzzyRule(6, ifNB_erreurAndNS_speed_IN, thenNB_speed_OUT); // Passing the Antecedent and the Consequent of expression
   FuzzyRule* fuzzyRule07 = new FuzzyRule(7, ifNS_erreurAndNS_speed_IN, thenNS_speed_OUT);
   FuzzyRule* fuzzyRule08 = new FuzzyRule(8, ifZ_erreurAndNS_speed_IN, thenNS_speed_OUT);
@@ -498,13 +513,13 @@ void config_fuzzy()
   FuzzyRule* fuzzyRule23 = new FuzzyRule(23, ifZ_erreurAndPB_speed_IN, thenPS_speed_OUT);
   FuzzyRule* fuzzyRule24 = new FuzzyRule(24, ifPS_erreurAndPB_speed_IN, thenPB_speed_OUT);
   FuzzyRule* fuzzyRule25 = new FuzzyRule(25, ifPB_erreurAndPB_speed_IN, thenPB_speed_OUT);
-  
+
   FuzzyRule* fuzzyRule26 = new FuzzyRule(26, ifNB_erreur_angleAndNB_speed_angle_IN, thenNB_speed_angle_OUT); // Passing the Antecedent and the Consequent of expression
   FuzzyRule* fuzzyRule27 = new FuzzyRule(27, ifNS_erreur_angleAndNB_speed_angle_IN, thenNB_speed_angle_OUT);
   FuzzyRule* fuzzyRule28 = new FuzzyRule(28, ifZ_erreur_angleAndNB_speed_angle_IN, thenNS_speed_angle_OUT);
   FuzzyRule* fuzzyRule29 = new FuzzyRule(29, ifPS_erreur_angleAndNB_speed_angle_IN, thenNS_speed_angle_OUT);
   FuzzyRule* fuzzyRule30 = new FuzzyRule(30, ifPB_erreur_angleAndNB_speed_angle_IN, thenZ_speed_angle_OUT);
-  
+
   FuzzyRule* fuzzyRule31 = new FuzzyRule(31, ifNB_erreur_angleAndNS_speed_angle_IN, thenNB_speed_angle_OUT); // Passing the Antecedent and the Consequent of expression
   FuzzyRule* fuzzyRule32 = new FuzzyRule(32, ifNS_erreur_angleAndNS_speed_angle_IN, thenNS_speed_angle_OUT);
   FuzzyRule* fuzzyRule33 = new FuzzyRule(33, ifZ_erreur_angleAndNS_speed_angle_IN, thenNS_speed_angle_OUT);
@@ -528,7 +543,7 @@ void config_fuzzy()
   FuzzyRule* fuzzyRule48 = new FuzzyRule(48, ifZ_erreur_angleAndPB_speed_angle_IN, thenPS_speed_angle_OUT);
   FuzzyRule* fuzzyRule49 = new FuzzyRule(49, ifPS_erreur_angleAndPB_speed_angle_IN, thenPB_speed_angle_OUT);
   FuzzyRule* fuzzyRule50 = new FuzzyRule(50, ifPB_erreur_angleAndPB_speed_angle_IN, thenPB_speed_angle_OUT);
-  
+
   fuzzy->addFuzzyRule(fuzzyRule01); // Adding FuzzyRule to Fuzzy object
   fuzzy->addFuzzyRule(fuzzyRule02);
   fuzzy->addFuzzyRule(fuzzyRule03);
