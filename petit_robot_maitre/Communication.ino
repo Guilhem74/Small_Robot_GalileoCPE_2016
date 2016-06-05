@@ -1,12 +1,10 @@
 #ifndef Communication
 #define Communication
-#include <Arduino.h>
-#include "global.h"
-#include "pins.h"
-#include "defines.h"
-void vide_data();
 
-void splitString(String message, char separator) {
+
+void vide_data_Slave();
+
+void splitString(String message, char separator,String* data) {
   int index = 0;
 
   cnt = 0;
@@ -32,44 +30,74 @@ void splitString(String message, char separator) {
 }
 
 
-bool Reception()
+bool Reception_Slave()
 {
-
-   if (stringComplete)
+  if (stringComplete_Slave)
   {
-    Serial.println("inputString : " + inputString);
-    // on le découpe à chaque espace ' '
-    // et on stocke les bouts dans un tableau
-    splitString(inputString, SEPARATEUR);
-    if(data[0]=="K")
+    Serial.println("inputString_Slave : " + inputString_Slave);
+    // on le découpe à chaque  ';'
+    // et on stocke les bouts dans un tableau data
+    splitString(inputString_Slave, SEPARATEUR,data_Slave);
+    if(data_Slave[0]=="K")
     {
-      Serial.println("DDDDRecept");
-      vide_data();
-
+      vide_data_Slave();
      return true;
     }
-    if(data[0]=="W")
-    {
-      X_POSITION= data[1].toInt();
-      Y_POSITION= data[2].toInt();
-      ANGLE_POSITION= data[3].toInt();
-    }
-
-    vide_data();
-    // vide la chaine
-
+    vide_data_Slave();
    }
     return false;
 
 }
 
-void vide_data()
+void Reception_Detection()
 {
-  inputString = "";
-  stringComplete = false;
+  if (stringComplete_Detection)
+  {
+    Serial.println("inputString_Detection : " + inputString_Detection);
+    // on le découpe à chaque  ';'
+    // et on stocke les bouts dans un tableau data
+    splitString(inputString_Detection, SEPARATEUR,data_Detection);
+    if(data_Detection[0]=="Z")
+    {
+      Capteur_detection_avant=true;
+      vide_data_Detection();
+      return;
+    }
+    if(data_Detection[0]=="S")
+    {
+      Capteur_detection_arriere=true;
+      vide_data_Detection();
+      return;
+    }
+    vide_data_Detection();
+    return;
+   }
+   Capteur_detection_avant=false;
+   Capteur_detection_arriere=false;
+
+    return;
+
+}
+
+
+
+void vide_data_Slave()
+{
+  inputString_Slave = "";
+  stringComplete_Slave = false;
   for(int i=0; i<10;i++)
     {
-      data[i]="";
+      data_Slave[i]="";
+    }
+}
+
+void vide_data_Detection()
+{
+  inputString_Slave = "";
+  stringComplete_Slave = false;
+  for(int i=0; i<10;i++)
+    {
+      data_Detection[i]="";
     }
 }
 #endif
