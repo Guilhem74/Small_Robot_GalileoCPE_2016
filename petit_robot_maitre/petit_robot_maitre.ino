@@ -12,15 +12,17 @@ void setup() {
     delay(100);
     servo1.attach(8);
     servo2.attach(9);
-    servo2.write(100);
+    servo1.write(SERVO1_INIT);
+    servo2.write(SERVO2_INIT);
+    pinMode(2,OUTPUT);
+    pinMode(3,INPUT_PULLUP);
+    digitalWrite(2,LOW);
     Serial.println("Pokemon GO");
-    delay(3000);
+    delay(1000);
 }
 
-Etat old_ = Libre;
 void loop()
 {
-
     //debug_test();
     if( Robot!=Prechauff)
     {
@@ -30,9 +32,11 @@ void loop()
            switch(Robot)
            {
             case Avance:
-                if (Detection(Avant))
+                if (0)
                 {
                   Robot=Stop;
+                  Serial.println("Detect");
+                  
                 }
                 else
                 {
@@ -41,13 +45,10 @@ void loop()
 
                 break;
             case Attente:
-                //if((millis()-temp_attente)>TEMPS_MAX_ATTENTE)//Si on a detecte il y a plus de TEMPS_MAX_ATTENTE ms
-                //{
-                  //Robot=Libre;
-                //}
-                
-                delay(TEMPS_MAX_ATTENTE);
-                Robot = Libre;
+                if((millis()-temp_attente)>TEMPS_MAX_ATTENTE)//Si on a detecte il y a plus de TEMPS_MAX_ATTENTE ms
+                {
+                  Robot=Libre;
+                }
                 break;
             case Libre:
                 Analyse_Objectif();
@@ -56,22 +57,18 @@ void loop()
                 Objectif = static_cast<OBJECTIF>(static_cast<int>(Objectif)+1);
                 Robot=Libre;
                 break;
-            case Recule:
-                if (Detection(Arriere))
-                {
-                  Robot=Stop;
-                }
-                else
-                {
-                  Se_Deplacer(X_DEPLACEMENT,Y_DEPLACEMENT,ANGLE_DEPLACEMENT);
-                }
-                break;
             case Fin:
                   Arreter();
-                break;
+                  delay(1000);
+                  Arreter();
+                  delay(1000);
+                  Arreter();
+                  while(1);
+                  
+                  break;
             case Stop:
                   Arreter();
-                  //temp_attente=millis();
+                  temp_attente=millis();
                   Robot=Attente;
                 break;
             default:
@@ -79,13 +76,16 @@ void loop()
                  break;
            }
 
-        if(Reception())
+        if(Reception())//Reception d'un messag de l'esclave
         {
         	Validation_Message++;
         	Robot=Arrive;
         }
-
-
+        
+        if(millis()-temp_derniere_action>15000)//time Out de 10 sec
+        {
+          Robot=Fin;
+        }
 
         }
         else
@@ -93,14 +93,19 @@ void loop()
           //Dit stop a l'esclave
           Robot=Fin;
           Arreter();
-
+          delay(1000);
+          Arreter();
+          while(1);
         }
 
     }
     else
     {//Signal non lancé
-      //TODO Check verification
+     if(digitalRead(3)==HIGH)
+     {
+      Robot=Avance;
       temp_match=millis();
+     }
     }
   
 

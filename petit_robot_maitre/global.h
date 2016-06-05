@@ -29,25 +29,47 @@ enum Etat{
   Fin
 };
 
-enum OBJECTIF{
-  Approche_poisson, Approche_poisson2, Approche_poisson3, Peche_poisson, Liberation_poisson, Approche_palet, Pousse_palet, Veille
-};
-
-
-OBJECTIF Objectif = Approche_poisson;
-Etat Robot = Libre;
 
 
 Servo servo1, servo2;
 int32_t temp_match=0;
-int32_t temp_attente=0; 
+int32_t temp_attente=0;
 int32_t temp_stop=0;
+int32_t temp_derniere_action=0;
 int Nombre_passage=0;
-int Validation_Message=0;
 
-int X_COORDONNES[NOMBRE_ETAPES]={100,300,0,0,0,0};
-int Y_COORDONNES[NOMBRE_ETAPES]={0};
-int ANGLE_COORDONNES[NOMBRE_ETAPES]={0};
+int CAPTEUR_SENSI=600;
+bool detection_capteur=false;
+
+int Validation_Message=0;
+bool Robot_fin=false;
+
+
+#if VERT
+enum OBJECTIF{
+  Init0, D0,D1,D2,D3,Capteur_Debut,D4,D5,D6,D7,Objectif_Fin
+};
+// Pour les Verts 
+// Rag ds l'enum    i0   D0   R0   D1   R1   D2   R2   D3   R3   D4   R4    D5    R5     D6    R6   D7   R7  D8   R8    D9  R9  D10   R0   
+// point sur la carte     2    2    3    3    4    4    5    5    6    6     7     7      8     8    9    9   10   10   11    11  12   12  13   13    14    14    15    15    16   16
+int X_COORDONNES[]={ 0,100,200, 800,810,810,100,605, 800,810,810};
+int Y_COORDONNES[]={ 0,0,0,880,880,880,875,880,880,880,880};
+int ANGLE_COORDONNES[]={0,0,0,0,0,0,0,0,0,0,0,0};
+#else
+enum OBJECTIF{
+  Init0, D0,D1,D2,D3,Capteur_Debut,D4,D5,D6,D7,Objectif_Fin, D9, R1, D8
+};
+int X_COORDONNES[]={0,600 ,  85, 800, 810, 600,  85, 800, 810, 810,810,810};
+int Y_COORDONNES[]={0,-775,-770,-770,-770,-775,-770,-770,-770,-770,-770,-770};
+int ANGLE_COORDONNES[]={0,180, 180,180,180,180, 180,180,180,180,180,180};
+#endif
+
+
+
+OBJECTIF Objectif = Init0;
+Etat Robot = Prechauff;
+
+int NBR_ETAPES=Objectif_Fin;
 
 int X_POSITION=0;
 int Y_POSITION=0;
@@ -57,6 +79,8 @@ int X_DEPLACEMENT=0;
 int Y_DEPLACEMENT=0;
 int ANGLE_DEPLACEMENT=0;
 
+bool Capteur_detection_avant=false;
+bool Capteur_detection_arriere=false;
 
 //Communication
 int cnt = 0; // nombre de données découpées
