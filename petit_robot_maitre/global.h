@@ -4,7 +4,9 @@
 #include "global.h"
 #include "defines.h"
 #include "objectif.h"
-
+#include <Wire.h>
+#include <LCD03.h>
+ LCD03 lcd;
 
 
 enum Etat{

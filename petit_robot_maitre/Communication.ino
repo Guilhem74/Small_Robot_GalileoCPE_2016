@@ -41,6 +41,8 @@ bool Reception_Slave()
 
     if(data_Slave[0]=="K")
     {
+      lcd.print('K');
+      lcd.newLine();
       vide_data_Slave();
     
      return true;

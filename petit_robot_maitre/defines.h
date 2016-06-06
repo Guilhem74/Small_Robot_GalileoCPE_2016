@@ -20,7 +20,7 @@
 #define DEBUG_CAPTEUR false
 #define DEBUG_SERIAL1 false
 #define DEBUG_SERIAL2 false
-#define BAUDRATE_DEBUG 9600
+#define BAUDRATE_DEBUG 115200
 #define BAUDRATE_MASTER 115200
 
 #endif

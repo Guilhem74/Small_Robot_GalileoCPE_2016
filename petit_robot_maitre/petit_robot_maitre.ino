@@ -1,6 +1,11 @@
 
 #include "global.h"
 void setup() {
+  lcd.begin(20, 4);
+  lcd.backlight();
+  lcd.print("Bonjour");
+  
+  delay(100);
     Serial.begin(BAUDRATE_DEBUG);
     Serial2.begin(BAUDRATE_MASTER);
     delay(100);
@@ -56,6 +61,8 @@ void loop()
             if(Objectif_En_Cours.Objectif_suivant!=NULL&&Objectif_En_Cours.Dernier_Objectif==false)
             {
                 Objectif_En_Cours = *(Objectif_En_Cours.Objectif_suivant);
+                lcd.print("Changement d'étape");
+                lcd.newLine();
                 Robot=Libre;
             }
             else
@@ -81,6 +88,7 @@ void loop()
           if(Reception_Slave())//Reception d'un message de l'esclave
           {
           	Validation_Message=0;
+           
             Serial.println("Arrivé a destination");
           	Robot=Arrive;
           }

@@ -19,13 +19,15 @@ void Se_Deplacer_Avant()
       Serial2.print(';');
       Serial2.print(ANGLE_DEPLACEMENT);
       Serial2.print('\n');
-      Serial.print(X_DEPLACEMENT);
-      Serial.print(';');
-      Serial.print(Y_DEPLACEMENT);
-      Serial.print(';');
-      Serial.print(';');
-      Serial.print(ANGLE_DEPLACEMENT);
-      Serial.print('\n');
+      
+     lcd.print(X_DEPLACEMENT);
+     lcd.print(';');
+     lcd.print(Y_DEPLACEMENT);
+     lcd.print(';');
+     lcd.print(';');
+     lcd.print(ANGLE_DEPLACEMENT);
+     lcd.print('\n');
+     lcd.newLine();
       Validation_Message=-1; //on attendra désormais une réponse de l'esclave avant de renvoyé un message
   }
 }
@@ -42,6 +44,15 @@ void Se_Deplacer_Arriere()
       Serial2.print(';');
       Serial2.print(ANGLE_DEPLACEMENT);
       Serial2.print('\n');
+      lcd.print("R:");
+       lcd.print(X_DEPLACEMENT);
+     lcd.print(';');
+     lcd.print(Y_DEPLACEMENT);
+     lcd.print(';');
+     lcd.print(';');
+     lcd.print(ANGLE_DEPLACEMENT);
+     lcd.print('\n');
+     lcd.newLine();
       Validation_Message=-1; //on attendra désormais une réponse de l'esclave avant de renvoyé un message
   }
 }
@@ -50,6 +61,9 @@ void Analyse_Objectif()
 
   Serial.write("Objectif courant : ");
   Serial.print(Objectif_En_Cours.nom);
+  lcd.clear();
+  lcd.print(Objectif_En_Cours.nom);
+  lcd.newLine();
 
   if(Objectif_En_Cours.Dernier_Objectif==true)
   {
