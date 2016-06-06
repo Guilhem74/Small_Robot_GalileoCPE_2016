@@ -52,6 +52,7 @@ void loop()
             case Attente:
                 if((millis()-temp_attente)>TEMPS_MAX_ATTENTE)//Si on a detecte il y a plus de TEMPS_MAX_ATTENTE ms
                 {
+                  lcd.clear();
                   Robot=Libre;
                 }
                 break;
@@ -127,7 +128,7 @@ void serialEvent2() {
     // récupérer le prochain octet (byte ou char) et l'enlever
     char inChar = (char)Serial2.read();
     // concaténation des octets reçus
-    
+    Serial.println(inChar);
     // caractère de fin pour notre chaine
     if (inChar == '\n') {
       stringComplete_Slave = true;

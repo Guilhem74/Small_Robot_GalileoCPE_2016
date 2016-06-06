@@ -64,21 +64,25 @@ void Reception_Detection()
     
     if(data_Detection[0]=="Z")
     {
-      lcd.clear();
+if(Robot!=Attente)
+{
+  lcd.clear();
   lcd.print("Detection avant");
   lcd.newLine();
+}
       Capteur_detection_avant=true;
-      Robot=Stop;
       vide_data_Detection();
       return;
     }
     if(data_Detection[0]=="S")
     {
-      lcd.clear();
+if(Robot!=Attente)
+{
+  lcd.clear();
   lcd.print("Detection arriere");
   lcd.newLine();
+}
       Capteur_detection_arriere=true;
-      Robot=Stop;
       vide_data_Detection();
       return;
     }

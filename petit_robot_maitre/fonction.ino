@@ -5,9 +5,8 @@
 void Arreter()
 {
   Serial2.println("S:");
-  Validation_Message=-1;//On RAZ l'esclave on attend une seule réponse
-  delay(100);
-  lcd.clear();
+  Serial.println("Demande arret");
+  Validation_Message=0;//On RAZ l'esclave on attend plus de réponse
   lcd.print("Stop");
   lcd.newLine();
   
@@ -79,8 +78,8 @@ void Analyse_Objectif()
   X_DEPLACEMENT=Objectif_En_Cours.X;
   Y_DEPLACEMENT=Objectif_En_Cours.Y;
   ANGLE_DEPLACEMENT=Objectif_En_Cours.Angle;
-  if(Objectif_En_Cours.Sens_Arriere)Robot=Recule;
-  else Robot=Avance;
+  if(Objectif_En_Cours.Sens_Arriere==true){Robot=Recule;}
+  else {Robot=Avance;}
 }
 
 
