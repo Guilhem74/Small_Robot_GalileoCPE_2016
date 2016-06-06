@@ -38,9 +38,11 @@ bool Reception_Slave()
     // on le découpe à chaque  ';'
     // et on stocke les bouts dans un tableau data
     splitString(inputString_Slave, SEPARATEUR,data_Slave);
+
     if(data_Slave[0]=="K")
     {
       vide_data_Slave();
+    
      return true;
     }
     vide_data_Slave();

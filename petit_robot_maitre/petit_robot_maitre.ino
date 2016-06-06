@@ -1,7 +1,7 @@
 
 #include "global.h"
 void setup() {
-    Serial.begin(BAUDRATE_MASTER);
+    Serial.begin(BAUDRATE_DEBUG);
     Serial2.begin(BAUDRATE_MASTER);
     delay(100);
 //Tirette
@@ -81,6 +81,7 @@ void loop()
           if(Reception_Slave())//Reception d'un message de l'esclave
           {
           	Validation_Message=0;
+            Serial.println("Arrivé a destination");
           	Robot=Arrive;
           }
           #if DETECTION_ACTIVATION
@@ -102,6 +103,7 @@ void loop()
     {//Signal non lancé
      if(digitalRead(3)==HIGH)
      {
+      Serial.println("C'est parti");
       Robot=Avance;
       temp_match=millis();
      }
@@ -116,24 +118,28 @@ void serialEvent2() {
     // récupérer le prochain octet (byte ou char) et l'enlever
     char inChar = (char)Serial2.read();
     // concaténation des octets reçus
-    inputString_Slave += inChar;
+    
     // caractère de fin pour notre chaine
     if (inChar == '\n') {
       stringComplete_Slave = true;
     }
+    else
+    {inputString_Slave += inChar;}
   }
  }
 #if DETECTION_ACTIVATION
-void serialEvent() {
-  while (Serial.available()) {
+void serialEvent3() {
+  while (Serial3.available()) {
     // récupérer le prochain octet (byte ou char) et l'enlever
-    char inChar = (char)Serial.read();
+    char inChar = (char)Serial3.read();
     // concaténation des octets reçus
-    inputString_Detection += inChar;
+    
     // caractère de fin pour notre chaine
     if (inChar == '\n') {
       stringComplete_Detection = true;
     }
+    else
+    {inputString_Detection += inChar;}
   }
  }
  #endif

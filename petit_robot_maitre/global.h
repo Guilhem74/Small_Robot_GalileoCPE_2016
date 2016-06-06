@@ -26,7 +26,7 @@ int32_t temp_attente=0;
 int Validation_Message=0;
 
 
-Etat Robot = Prechauff;
+Etat Robot = Libre;
 
 
 

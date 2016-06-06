@@ -22,7 +22,7 @@ typedef struct Objectif {
 
  Objectif Objectif_Fin = {"FIN",500,0,0,false,false,true,.Objectif_suivant=NULL};
 Objectif Objectif_Avancer = {"Avance de 500",.X=500,.Y=0,.Angle=0,.Sens_Arriere=false,.Detection_Active=false,.Dernier_Objectif=false,.Objectif_suivant=&Objectif_Fin};
-Objectif Objectif_Init ={"Initialisation",0,0,0,false,false,false,.Objectif_suivant=&Objectif_Fin}; //{X :0,Objectif_suivant :&Objectif_Avancer}; 
+Objectif Objectif_Init ={"Initialisation",0,0,0,false,false,false,.Objectif_suivant=&Objectif_Avancer}; //{X :0,Objectif_suivant :&Objectif_Avancer}; 
 #endif
 
 

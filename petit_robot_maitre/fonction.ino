@@ -10,7 +10,7 @@ void Arreter()
 
 void Se_Deplacer_Avant()
 {
-  if(Validation_Message>0)//Si on est a jour sur les échanges avec l'esclave
+  if(Validation_Message>=0)//Si on est a jour sur les échanges avec l'esclave
   {
       Serial2.print(X_DEPLACEMENT);
       Serial2.print(';');
@@ -19,13 +19,20 @@ void Se_Deplacer_Avant()
       Serial2.print(';');
       Serial2.print(ANGLE_DEPLACEMENT);
       Serial2.print('\n');
+      Serial.print(X_DEPLACEMENT);
+      Serial.print(';');
+      Serial.print(Y_DEPLACEMENT);
+      Serial.print(';');
+      Serial.print(';');
+      Serial.print(ANGLE_DEPLACEMENT);
+      Serial.print('\n');
       Validation_Message=-1; //on attendra désormais une réponse de l'esclave avant de renvoyé un message
   }
 }
 
 void Se_Deplacer_Arriere()
 {
-  if(Validation_Message>0)//Si on est a jour sur les échanges avec l'esclave
+  if(Validation_Message>=0)//Si on est a jour sur les échanges avec l'esclave
   {
       Serial2.print("R:");
       Serial2.print(X_DEPLACEMENT);
@@ -41,13 +48,13 @@ void Se_Deplacer_Arriere()
 void Analyse_Objectif()
 {
 
-  Serial.print("Objectif courant : ");
-  Serial.println(Objectif_En_Cours.nom);
+  Serial.write("Objectif courant : ");
+  Serial.print(Objectif_En_Cours.nom);
 
-  if(Objectif_En_Cours.Dernier_Objectif)
+  if(Objectif_En_Cours.Dernier_Objectif==true)
   {
       Robot=Fin;
-      Serial.println("FIN");
+      Serial.println("Dernier Objectif");
       return;
   }
   X_DEPLACEMENT=Objectif_En_Cours.X;
