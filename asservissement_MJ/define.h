@@ -2,7 +2,7 @@
 #ifndef DEFINE_H
 #define DEFINE_H
 
-#define GROSROBOT true //Pour gros robot :true
+#define GROSROBOT false //Pour gros robot :true
 #define PETITROBOT !GROSROBOT //Pour la compréhension
 
 #define DEBUG false
@@ -59,7 +59,7 @@
     #define COEFF_MAGIQUE_ROUE_DROITE 0.992
 
   #else
-      #define SerialMaster Serial
+      #define SerialMaster Serial2
       #define ETAT_MOTEUR_AVANCE LOW
       #define ANGLE_TOLERANCE 5 // degrés
 
