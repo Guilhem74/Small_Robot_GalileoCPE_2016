@@ -8,6 +8,7 @@ void setup() {
   delay(100);
     Serial.begin(BAUDRATE_DEBUG);
     Serial2.begin(BAUDRATE_MASTER);
+    Serial3.begin(BAUDRATE_MASTER);
     delay(100);
 //Tirette
     pinMode(2,OUTPUT);
@@ -141,7 +142,7 @@ void serialEvent3() {
     // récupérer le prochain octet (byte ou char) et l'enlever
     char inChar = (char)Serial3.read();
     // concaténation des octets reçus
-    
+    Serial.println(inChar);
     // caractère de fin pour notre chaine
     if (inChar == '\n') {
       stringComplete_Detection = true;

@@ -61,15 +61,24 @@ void Reception_Detection()
     // on le découpe à chaque  ';'
     // et on stocke les bouts dans un tableau data
     splitString(inputString_Detection, SEPARATEUR,data_Detection);
+    
     if(data_Detection[0]=="Z")
     {
+      lcd.clear();
+  lcd.print("Detection avant");
+  lcd.newLine();
       Capteur_detection_avant=true;
+      Robot=Stop;
       vide_data_Detection();
       return;
     }
     if(data_Detection[0]=="S")
     {
+      lcd.clear();
+  lcd.print("Detection arriere");
+  lcd.newLine();
       Capteur_detection_arriere=true;
+      Robot=Stop;
       vide_data_Detection();
       return;
     }
@@ -97,8 +106,8 @@ void vide_data_Slave()
 
 void vide_data_Detection()
 {
-  inputString_Slave = "";
-  stringComplete_Slave = false;
+  inputString_Detection = "";
+  stringComplete_Detection = false;
   for(int i=0; i<10;i++)
     {
       data_Detection[i]="";

@@ -6,6 +6,11 @@ void Arreter()
 {
   Serial2.println("S:");
   Validation_Message=-1;//On RAZ l'esclave on attend une seule réponse
+  delay(100);
+  lcd.clear();
+  lcd.print("Stop");
+  lcd.newLine();
+  
 }
 
 void Se_Deplacer_Avant()
