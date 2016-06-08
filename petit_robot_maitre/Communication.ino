@@ -117,4 +117,66 @@ void vide_data_Detection()
       data_Detection[i]="";
     }
 }
+
+
+void LCD_Galileo()
+{
+  int T[4][26]={{1,1,1,0,0,0,0,0,0,1,0,0,0,1,0,1,0,0,0,1,1,1,0,0,0,0},
+              {1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,2,2,0,1,1,1},
+              {1,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,0,0,1,3,3,0,1,0,1},
+              {1,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,1,1,0,1,1,1,0,1,1,1}};
+ lcd.clear();
+  int i,j,k;
+  uint8_t full[8] = {0x1f,0x1f,0x1f,0x1f,0x1f,0x1f,0x1f};
+  uint8_t under[8] = {0x00,0x00,0x00,0x00,0x00,0x00,0x1f};
+  uint8_t empty[8] = {};
+  uint8_t upper[8] = {0x1f};
+lcd.createChar(0, empty);
+lcd.createChar(1, full);
+lcd.createChar(3, upper);
+lcd.createChar(2, under);
+for (k=0;k<7;k++)
+ {
+  for(j=0;j<4;j++)
+  {
+    for (i=0;i<20;i++)
+    {
+      lcd.setCursor(i,j);
+        lcd.write(T[j][i+k]);  
+    }
+  }
+  delay(300);
+  }
+  delay(500);
+}
+void LCD_Tchang()
+{
+  int T[4][26]={{1,1,1,0,1,1,1,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,1,1,0,0},
+                {0,1,0,0,1,0,0,0,1,1,1,0,1,2,1,0,1,1,0,1,0,1,0,0,0,0},
+                {0,1,0,0,1,0,0,0,1,1,1,0,1,3,1,0,1,0,1,1,0,1,0,1,0,0},
+                {0,1,0,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,1,1,1,0,0}};
+ lcd.clear();
+  int i,j,k;
+  uint8_t full[8] = {0x1f,0x1f,0x1f,0x1f,0x1f,0x1f,0x1f};
+  uint8_t under[8] = {0x00,0x00,0x00,0x00,0x00,0x00,0x1f};
+  uint8_t empty[8] = {};
+  uint8_t upper[8] = {0x1f};
+lcd.createChar(0, empty);
+lcd.createChar(1, full);
+lcd.createChar(3, upper);
+lcd.createChar(2, under);
+for (k=0;k<7;k++)
+ {
+  for(j=0;j<4;j++)
+  {
+    for (i=0;i<20;i++)
+    {
+      lcd.setCursor(i,j);
+        lcd.write(T[j][i+k]);  
+    }
+  }
+  delay(300);
+  }
+  delay(500);
+}
 #endif

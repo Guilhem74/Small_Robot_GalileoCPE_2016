@@ -3,17 +3,25 @@
 void setup() {
   lcd.begin(20, 4);
   lcd.backlight();
-  lcd.print("Bonjour");
-  
+  pinMode(2, OUTPUT);
+  digitalWrite(2,HIGH);
+  pinMode(4, INPUT);
+  pinMode(5, INPUT);
+  pinMode(6, INPUT);
+  pinMode(7, INPUT);
+  pinMode(8, INPUT);
+  pinMode(9, INPUT);
+  pinMode(10, INPUT);
+  pinMode(11, INPUT);
   delay(100);
     Serial.begin(BAUDRATE_DEBUG);
     Serial2.begin(BAUDRATE_MASTER);
     Serial3.begin(BAUDRATE_MASTER);
     delay(100);
 //Tirette
-    pinMode(2,OUTPUT);
-    pinMode(3,INPUT_PULLUP);
-    digitalWrite(2,LOW);
+    pinMode(A8,OUTPUT);
+    pinMode(A9,INPUT_PULLUP);
+    digitalWrite(A8,LOW);
 //fin Tirette
     delay(1000);
 }
@@ -24,11 +32,10 @@ void loop()
     {//Tirette détaché
         if( millis()-temp_match < TEMPS_MATCH)
         {//Si ca fait moins de 90 s et que le signal a été lancé
-
            switch(Robot)
            {//machine d'etat
             case Avance:
-                if (Capteur_detection_avant&&Objectif_En_Cours.Detection_Active)
+                if (Capteur_detection_avant&&Objectif_En_Cours.Detection_Active&&Detection_active)
                 {
                   Robot=Stop;
                 }
@@ -39,7 +46,7 @@ void loop()
 
                 break;
              case Recule:
-                if (Capteur_detection_arriere&&Objectif_En_Cours.Detection_Active)
+                if (Capteur_detection_arriere&&Objectif_En_Cours.Detection_Active&&Detection_active)
                 {
                   Robot=Stop;
                 }
@@ -105,18 +112,57 @@ void loop()
           //Dit stop a l'esclave
           Robot=Fin;
           Arreter();
+          lcd.clear();
+          lcd.print("Fin match");
           while(1);
         }
 
     }
     else
     {//Signal non lancé
-     if(digitalRead(3)==HIGH)
-     {
-      Serial.println("C'est parti");
+      if(digitalRead(A9)==LOW&&Lancement_config)
+       { 
+        lcd.clear();
+        lcd.println("'Tchang'uer");
+        delay(300);
       Robot=Avance;
       temp_match=millis();
-     }
+      }
+       else if(digitalRead(A9)==HIGH&&Lancement_config==false)
+       {
+        lcd.clear();
+        lcd.println("Entrer une config");
+        delay(300);
+        lcd.clear();
+        delay(300);
+        lcd.println("Entrer une config");
+        delay(300);
+        lcd.clear();
+         delay(300);
+        lcd.println("Entrer une config");
+        delay(300);
+        lcd.clear();
+        delay(300);
+        lcd.println("Entrer une config");
+        delay(300);
+        Check_config();
+       }
+       else if(digitalRead(A9)==HIGH&&Lancement_config==true)
+       {
+        lcd.clear();
+        lcd.println("'Tchang'able");
+        lcd.newLine();
+        lcd.println("Attente tirette");
+        delay(300);
+       }
+       else if(digitalRead(A9)==LOW&&Lancement_config==false)
+       { 
+          lcd.clear();
+        lcd.print("Ou est donc passee");
+        lcd.newLine();
+        lcd.println("la 'Tchang'tirette?!");
+        delay(1000);
+      }
     }
   
 

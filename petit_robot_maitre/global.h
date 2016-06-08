@@ -28,7 +28,7 @@ int32_t temp_attente=0;
 int Validation_Message=0;
 
 
-Etat Robot = Libre;
+Etat Robot = Prechauff;
 
 
 
@@ -39,6 +39,10 @@ int ANGLE_DEPLACEMENT=0;
 bool Capteur_detection_avant=false;
 bool Capteur_detection_arriere=false;
 
+bool Couleur_Verte=false;
+bool Lancement_config=false;
+bool Tirette_passe=false;
+bool Detection_active=true;
 //Communication
 int cnt = 0; // nombre de données découpées
 String data_Slave[10]; // stockage des données découpées
