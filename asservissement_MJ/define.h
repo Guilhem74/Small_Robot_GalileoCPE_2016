@@ -73,8 +73,8 @@
       
       #define VITESSE_MAX 500 //mm par sec
       #define VITESSE_ANGLE_MAX 250 // deg par sec
-      #define ERREUR_MAX 30 //erreur mm pour laquelle le comportement reste max
-      #define ERREUR_MAX_ANGLE 60 //centieme de degres
+      #define ERREUR_MAX 40 //erreur mm pour laquelle le comportement reste max
+      #define ERREUR_MAX_ANGLE 80 //centieme de degres
       //SPEED_OUT_MAX dans global.h
       
       //defini entre 0 et 10000
