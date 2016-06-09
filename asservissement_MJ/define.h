@@ -61,13 +61,13 @@
   #else
       #define SerialMaster Serial2
       #define ETAT_MOTEUR_AVANCE LOW
-      #define ANGLE_TOLERANCE 5 // degrés
+      #define ANGLE_TOLERANCE 15 // degrés
 
       #define DIAMETRE_ROUE 51.7 // en mm
       #define ECARTEMENT_ROUES 115 //en mm
       #define TICCODEUSE 1538 //Tick par tour de roue
       #define PWM_MAX 190
-      #define DEFAULT_SPEED 190
+      #define DEFAULT_SPEED 160
       
       #define RAPPORT_LINEAIRE_ANGULAIRE 1.35f
       
