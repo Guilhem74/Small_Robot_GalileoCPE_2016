@@ -26,22 +26,21 @@ typedef struct Objectif {
   * 
   */
  //violet config 1
-Objectif ObjectifVLT1_Fin = {"Objectif de Fin",.X=-50,.Y=-1130,.Angle=0,.Sens_Arriere=true,.Detection_Active=false,.Dernier_Objectif=true,.Objectif_suivant=NULL};
-Objectif ObjectifVLT1_pos15 = {"Objectif VLT1 n°15",.X=-50,.Y=-1130,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_Fin};
-Objectif ObjectifVLT1_pos14 = {"Objectif VLT1 n°14",.X=-50,.Y=-770,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos15};
-Objectif ObjectifVLT1_pos13 = {"Objectif VLT1 n°13",.X=-340,.Y=-1060,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos14};
-Objectif ObjectifVLT1_pos12 = {"Objectif VLT1 n°12",.X=-210,.Y=-570,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos13};
-Objectif ObjectifVLT1_pos11 = {"Objectif VLT1 n°11",.X=-210,.Y=340,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos12};
-Objectif ObjectifVLT1_pos10 = {"Objectif VLT1 n°10",.X=160,.Y=150,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos11};
-Objectif ObjectifVLT1_pos9 = {"Objectif VLT1 n°9",.X=150,.Y=560,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos10};
-Objectif ObjectifVLT1_pos8 = {"Objectif VLT1 n°8",.X=-130,.Y=610,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos9};
-Objectif ObjectifVLT1_pos7 = {"Objectif VLT1 n°7",.X=-60,.Y=-10,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos8};
-Objectif ObjectifVLT1_pos6 = {"Objectif VLT1 n°6",.X=-340,.Y=190,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos7};
-Objectif ObjectifVLT1_pos5 = {"Objectif VLT1 n°5",.X=-610,.Y=390,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos6};
-Objectif ObjectifVLT1_pos4 = {"Objectif VLT1 n°4",.X=-620,.Y=-100,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos5};
-Objectif ObjectifVLT1_pos3 = {"Objectif VLT1 n°3",.X=-700,.Y=-100,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos4};
-Objectif ObjectifVLT1_pos2 = {"Objectif VLT1 n°2",.X=-210,.Y=-110,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos3};
-Objectif ObjectifVLT1_pos1 = {"Objectif VLT1 n°1",.X=0,.Y=0,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos2};
+Objectif ObjectifVLT1_Fin = {"Objectif de Fin",.X=200,.Y=-1100,.Angle=90,.Sens_Arriere=true,.Detection_Active=false,.Dernier_Objectif=true,.Objectif_suivant=NULL};
+
+Objectif ObjectifVLT1_pos12 = {"Pousse porte",.X=200,.Y=-1100,.Angle=90,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_Fin};
+Objectif ObjectifVLT1_pos11 = {"Approche porte 1",.X=200,.Y=-800,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos12};
+Objectif ObjectifVLT1_pos10 = {"Recule serviette",.X=-300,.Y=0,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos11};
+Objectif ObjectifVLT1_pos9 = {"legere rotation depose palet",.X=0,.Y=0,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos10};
+Objectif ObjectifVLT1_pos8 = {"Direction la serviette",.X=0,.Y=0,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos9};
+Objectif ObjectifVLT1_pos7 = {"Pousse palet",.X=-50,.Y=800,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos8};
+Objectif ObjectifVLT1_pos6 = {"Contournement 2",.X=-300,.Y=800,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos7};
+Objectif 
+ObjectifVLT1_pos5 = {"Contournement 1",.X=-360,.Y=125,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos6};
+Objectif ObjectifVLT1_pos4 = {"Recule Palet",.X=-210,.Y=125,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos5};
+Objectif ObjectifVLT1_pos3 = {"Attrape palet",.X=0,.Y=-0,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos4};
+Objectif ObjectifVLT1_pos2 = {"Placement palet",.X=-1200,.Y=800,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos3};
+Objectif ObjectifVLT1_pos1 = {"Contournement palet",.X=-1300,.Y=500,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos2};
 
 
 //violet config 2
@@ -91,10 +90,10 @@ Objectif ObjectifVLTH_pos1 = {"Objectif VH n°1",.X=0,.Y=-10,.Angle=0,.Sens_Arri
 /*Objectif commun aux strats violet
  * Bloc du millieu : 
  */
-Objectif ObjectifVLTCommun_Fin = {"VLT:Transition vers stratégie",.X=-610,.Y=390,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=true,.Objectif_suivant=&ObjectifVLT1_pos1};
-Objectif ObjectifVLTCommun_pos3 = {"VLT:Eloignement des cubes",.X=-620,.Y=-100,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLTCommun_Fin};
-Objectif ObjectifVLTCommun_pos2 = {"VLT:Pousse cube",.X=-700,.Y=-100,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLTCommun_pos3};
-Objectif ObjectifVLTCommun_pos1 = {"VLT:Alignement avec les cubes",.X=-210,.Y=-110,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLTCommun_pos2};
+Objectif ObjectifVLTCommun_Fin = {"VLT:Transition vers stratégie",.X=-210,.Y=-125,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLT1_pos1};
+Objectif ObjectifVLTCommun_pos3 = {"VLT:Eloignement des cubes",.X=-210,.Y=-125,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLTCommun_Fin};
+Objectif ObjectifVLTCommun_pos2 = {"VLT:Pousse cube",.X=-610,.Y=-125,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLTCommun_pos3};
+Objectif ObjectifVLTCommun_pos1 = {"VLT:Alignement avec les cubes",.X=-150,.Y=-125,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLTCommun_pos2};
 Objectif ObjectifVLTCommun_Init = {"VLT:Départ du robot",.X=0,.Y=0,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVLTCommun_pos1};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,14 +104,23 @@ Objectif ObjectifVLTCommun_Init = {"VLT:Départ du robot",.X=0,.Y=0,.Angle=0,.Se
   * 
   */
 
- /*Stratégie Vert 1*/
-Objectif ObjectifVRT1_Fin = {"Objectif VRT1 de Fin",.X=160,.Y=-280,.Angle=0,.Sens_Arriere=true,.Detection_Active=false,.Dernier_Objectif=true,.Objectif_suivant=NULL};
-Objectif ObjectifVRT1_pos6 = {"Objectif VRT1 n°6",.X=160,.Y=-280,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_Fin};
-Objectif ObjectifVRT1_pos5 = {"Objectif VRT1 n°5",.X=-1100,.Y=670,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos6};
-Objectif ObjectifVRT1_pos4 = {"Objectif VRT1 n°4",.X=-500,.Y=-120,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos5};
-Objectif ObjectifVRT1_pos3 = {"Objectif VRT1 n°3",.X=-600,.Y=-110,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos4};
-Objectif ObjectifVRT1_pos2 = {"Objectif VRT1 n°2",.X=-190,.Y=-130,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos3};
-Objectif ObjectifVRT1_pos1 = {"Objectif VRT1 n°1",.X=0,.Y=-10,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos2};
+ //Vert config 1
+Objectif ObjectifVRT1_Fin = {"Objectif de Fin",.X=0,.Y=1200,.Angle=90,.Sens_Arriere=true,.Detection_Active=false,.Dernier_Objectif=true,.Objectif_suivant=NULL};
+
+Objectif ObjectifVRT1_pos12 = {"Pousse porte",.X=-300,.Y=1100,.Angle=90,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_Fin};
+Objectif ObjectifVRT1_pos11 = {"Approche porte 1",.X=-300,.Y=1100,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos12};
+Objectif ObjectifVRT1_pos10 = {"Recule serviette",.X=-300,.Y=100,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos11};
+Objectif ObjectifVRT1_pos9 = {"Eloignement ",.X=-300,.Y=100,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos10};
+Objectif ObjectifVRT1_pos8 = {"Eloignement serviette",.X=-300,.Y=100,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos9};
+Objectif ObjectifVRT1_pos7 = {"Pousse palet",.X=-50,.Y=100,.Angle=90,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos8};
+Objectif ObjectifVRT1_pos6 = {"Contournement 2",.X=0,.Y=-600,.Angle=90,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos7};
+Objectif ObjectifVRT1_pos5 = {"Contournement 1",.X=-300,.Y=-600,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos6};
+Objectif ObjectifVRT1_pos4 = {"Pousse des palets Palet",.X=-100,.Y=100,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos5};
+Objectif ObjectifVRT1_pos3 = {"Approche des palets",.X=-100,.Y=-100,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos4};
+Objectif ObjectifVRT1_pos2 = {"Placement palet",.X=-1300,.Y=-750,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos3};
+Objectif ObjectifVRT1_pos1 = {"Contournement palet",.X=-1300,.Y=-600,.Angle=90,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos2};
+
+
 /*Stratégie Vert 2*/
 Objectif ObjectifVRT2_Fin = {"Objectif VRT2 de Fin",.X=160,.Y=-280,.Angle=0,.Sens_Arriere=true,.Detection_Active=false,.Dernier_Objectif=true,.Objectif_suivant=NULL};
 Objectif ObjectifVRT2_pos6 = {"Objectif VRT2 n°6",.X=160,.Y=-280,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT2_Fin};
@@ -137,10 +145,10 @@ Objectif ObjectifVRTH_pos1 = {"Objectif VRTH n°1",.X=0,.Y=-10,.Angle=0,.Sens_Ar
 /*Objectif commun aux strats Verte
  * 
  */
-Objectif ObjectifVRTCommun_Fin = {"VRT:Transition vers stratégie",.X=-610,.Y=390,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=true,.Objectif_suivant=&ObjectifVRT1_pos1};
-Objectif ObjectifVRTCommun_pos3 = {"VRT:Eloignement des cubes",.X=-620,.Y=-100,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRTCommun_Fin};
-Objectif ObjectifVRTCommun_pos2 = {"VRT:Pousse cube",.X=-700,.Y=-100,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRTCommun_pos3};
-Objectif ObjectifVRTCommun_pos1 = {"VRT:Alignement avec les cubes",.X=-210,.Y=-110,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRTCommun_pos2};
+Objectif ObjectifVRTCommun_Fin = {"VRT:Transition vers stratégie",.X=-210,.Y=120,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRT1_pos1};
+Objectif ObjectifVRTCommun_pos3 = {"VRT:Eloignement des cubes",.X=-210,.Y=120,.Angle=0,.Sens_Arriere=false,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRTCommun_Fin};
+Objectif ObjectifVRTCommun_pos2 = {"VRT:Pousse cube",.X=-610,.Y=120,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRTCommun_pos3};
+Objectif ObjectifVRTCommun_pos1 = {"VRT:Alignement avec les cubes",.X=-150,.Y=120,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRTCommun_pos2};
 Objectif ObjectifVRTCommun_Init = {"VRT:Départ du robot",.X=0,.Y=0,.Angle=0,.Sens_Arriere=true,.Detection_Active=true,.Dernier_Objectif=false,.Objectif_suivant=&ObjectifVRTCommun_pos1};
 
 /*Règle*/

@@ -78,6 +78,7 @@ void Analyse_Objectif()
   X_DEPLACEMENT=Objectif_En_Cours.X;
   Y_DEPLACEMENT=Objectif_En_Cours.Y;
   ANGLE_DEPLACEMENT=Objectif_En_Cours.Angle;
+  delay(1000);
   if(Objectif_En_Cours.Sens_Arriere==true){Robot=Recule;}
   else {Robot=Avance;}
 }
