@@ -35,7 +35,7 @@ Etat Robot = Prechauff;
 int X_DEPLACEMENT=0;
 int Y_DEPLACEMENT=0;
 int ANGLE_DEPLACEMENT=0;
-
+int temps_derniere_action=0;
 bool Capteur_detection_avant=false;
 bool Capteur_detection_arriere=false;
 

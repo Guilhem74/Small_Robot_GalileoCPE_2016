@@ -68,17 +68,18 @@ void Analyse_Objectif()
   lcd.clear();
   lcd.print(Objectif_En_Cours.nom);
   lcd.newLine();
-
+  
   if(Objectif_En_Cours.Dernier_Objectif==true)
   {
       Robot=Fin;
       Serial.println("Dernier Objectif");
       return;
   }
+  delay(Objectif_En_Cours.delayAction);
   X_DEPLACEMENT=Objectif_En_Cours.X;
   Y_DEPLACEMENT=Objectif_En_Cours.Y;
   ANGLE_DEPLACEMENT=Objectif_En_Cours.Angle;
-  delay(1000);
+  temps_derniere_action==millis();
   if(Objectif_En_Cours.Sens_Arriere==true){Robot=Recule;}
   else {Robot=Avance;}
 }
@@ -123,29 +124,29 @@ bool Check_config()
     {
        Config_Correct=true;
       lcd.print("Strategie n°2");
-      ObjectifVLTCommun_Fin.Objectif_suivant=&ObjectifVLT2_pos1;
-      ObjectifVRTCommun_Fin.Objectif_suivant=&ObjectifVRT2_pos1;
+      ObjectifVLTCommun_Fin.Objectif_suivant=&ObjectifVLT1_pos1;
+      ObjectifVRTCommun_Fin.Objectif_suivant=&ObjectifVRT1_pos1;
     }
     else if(I[4])
     {
        Config_Correct=true;
       lcd.print("Strategie n°3");
-      ObjectifVLTCommun_Fin.Objectif_suivant=&ObjectifVLT3_pos1;
-      ObjectifVRTCommun_Fin.Objectif_suivant=&ObjectifVRT3_pos1;
+      ObjectifVLTCommun_Fin.Objectif_suivant=&ObjectifVLT1_pos1;
+      ObjectifVRTCommun_Fin.Objectif_suivant=&ObjectifVRT1_pos1;
     }
     else if(I[5])
     {
        Config_Correct=true;
       lcd.print("Strategie n°4");
-      ObjectifVLTCommun_Fin.Objectif_suivant=&ObjectifVLT3_pos1;
-      ObjectifVRTCommun_Fin.Objectif_suivant=&ObjectifVRT3_pos1;
+      ObjectifVLTCommun_Fin.Objectif_suivant=&ObjectifVLT1_pos1;
+      ObjectifVRTCommun_Fin.Objectif_suivant=&ObjectifVRT1_pos1;
     }
     else if(I[6])
     {
        Config_Correct=true;
       lcd.print("Strategie n°5");
-      ObjectifVLTCommun_Fin.Objectif_suivant=&ObjectifVLT3_pos1;
-      ObjectifVRTCommun_Fin.Objectif_suivant=&ObjectifVRT3_pos1;
+      ObjectifVLTCommun_Fin.Objectif_suivant=&ObjectifVLT1_pos1;
+      ObjectifVRTCommun_Fin.Objectif_suivant=&ObjectifVRT1_pos1;
     }
     else
     {

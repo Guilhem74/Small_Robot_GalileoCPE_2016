@@ -69,7 +69,9 @@ void loop()
             case Arrive://Le robot est arrivé a destination, on passe a l'objectif suivant
             if(Objectif_En_Cours.Objectif_suivant!=NULL&&Objectif_En_Cours.Dernier_Objectif==false)
             {
+               
                 Objectif_En_Cours = *(Objectif_En_Cours.Objectif_suivant);
+                
                 lcd.print("Changement d'étape");
                 lcd.newLine();
                 Robot=Libre;
@@ -98,8 +100,15 @@ void loop()
           {
           	Validation_Message=0;
            
-            Serial.println("Arrivé a destination");
+            //Serial.println("Arrivé a destination");
           	Robot=Arrive;
+          }
+          if(millis()-temps_derniere_action>Objectif_En_Cours.Time_out)
+          {
+           Robot=Arrive; 
+           Validation_Message=0;
+           lcd.print("Time out");
+           lcd.newLine();
           }
           #if DETECTION_ACTIVATION
           Reception_Detection();//Reception d'un message de l'esclave
