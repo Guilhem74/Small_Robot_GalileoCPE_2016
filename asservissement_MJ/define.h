@@ -61,7 +61,7 @@
   #else
       #define SerialMaster Serial2
       #define ETAT_MOTEUR_AVANCE LOW
-      #define ANGLE_TOLERANCE 15 // degrés
+      #define ANGLE_TOLERANCE 20 // degrés
 
       #define DIAMETRE_ROUE 51.7 // en mm
       #define ECARTEMENT_ROUES 115 //en mm
